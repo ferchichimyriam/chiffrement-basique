@@ -1,53 +1,54 @@
 def caesar(text, shift, mode):
    
-# text is what we want to decrypt or encrypt.
-# shift is how much we want to shift the letter, can't really explain without showing but basically if we want to encrypt the letter C by moving from 3 letter we'll get F, hope it makes sense...
-# mode is whether we want to encrypt or decrypt (for decryption we assume we know the shift and we're just lazy to decrypt it ourselves).
+# 'text' est ce qu’on veut chiffrer ou déchiffrer.
+# 'shift' est le nombre de lettres de décalage ; en gros, si on chiffre la lettre C avec un décalage de 3, on obtient F.
+# 'mode' sert à choisir si on veut chiffrer ou déchiffrer (on suppose qu’on connaît le décalage, on veut juste pas le faire a la main...).
 
    result = ""
 
-# empty string in which we will put our final output, basic.
-   
+# Une chaîne vide où on mettra notre résultat final, basique.
+
    for char in text:
        if char.isalpha():
            
-# for each character in the text, if the character is a letter...
-           
+# Pour chaque caractère du texte, si c’est une lettre...
+
            if char.isupper():
                base = ord('A')
            else:
                base = ord('a')
                
-# we check if it's upper or lower, then we set the base to either, the ASCII value of 'A' (65) or 'a' (97).
-               
-           if mode.lower() == 'encrypt': # in case some idiots type "ENCRYPT" instead of "encrypt".
+# On vérifie si c’est une majuscule ou une minuscule, puis on définit la base avec le code ASCII de 'A' (65) ou 'a' (97).
+
+           if mode.lower() == 'encrypt':  # au cas où des gens tapent "ENCRYPT" en caps lock.
                direction = shift
            else:
                direction = -shift
                
-# basically here, what we're trying to do is to see wether we go "backward" (in case of decrypting), or "forward" (in case of encrypting), if we encrypt C we go forward and we get F, otherwise, we go backward and we get A.
-               
+# Ici, on détermine si on va "en avant" (chiffrement) ou "en arrière" (déchiffrement).
+# Si on chiffre un C avec +3, on obtient F ; si on déchiffre, on revient vers A.
+
            calcul = (ord(char) - base + direction)%26
-            
-# Okay so this part is tricky, we play with the ASCII values, basically if we have ord("C"), it will give us 67 then we substract it to the base (the base being ord("A"))
-# So from here we have the value "2", same value that we add (or substract, considering the mode we chose, but let's pretend we want to encrypt) the shift (let's say 3 in our exercice)
-# This give us a total of 5 which is the position of an invisible character but just you wait...! Also! We put everything at modulo 26 to ensure it doesn't go higher than 25 (for example if we choose Z and the shift is 5, we'd get a problem without %26)
-            
+
+# Cette partie est un peu délicate, on joue avec les valeurs ASCII. En gros, si on fait ord("C"), ça nous donne 67, puis on soustrait la base (la base étant ord("A") vu qu'on a prit C majuscule).
+# Donc ici, on obtient la valeur « 2 », c’est cette valeur-là qu’on ajoute (ou qu’on soustrait, selon le mode choisi, mais imaginons qu’on veuille chiffrer) avec le décalage (prenons 3 pour notre exercice).
+# Ça nous donne un total de 5, ce qui correspond à la position d’un caractère invisible… pour l'instant. En plus de ca, on met tout en modulo 26 pour s’assurer que le résultat ne dépasse jamais 25 (par exemple, si on prend Z et un décalage de 5, on aurait un souci sans ce %26).
+
            result += chr(base+calcul)
-# This is where our 5 comes in play! We say that chr(5) wouldn't give us anything, but if we add it to the base, then suddenly we get 5+65..which you guessed, give us 70. now if you print(chr(70)), you get F :-)
+
+# Et là, comme par magie : on convertit à nouveau le résultat en lettre avec chr() en replaçant la base, genre 5 + 65 = 70 = 'F'.
+
        else:
            result += char
+
+# Si le caractère n’est pas une lettre (genre un espace, un point...), on le laisse tel quel.
             
    return result
             
-print(caesar('Miaou', 3, 'encrypt'))
+print(caesar('Chat', 3, 'encrypt'))
 
-# This is literally a beginner project..(sort of.. I tried to make it understandable..), so yeah, don't go around using this for real word use..
-# But at the end of the day, all you need to know is that playing with ASCII values is complicated but extremely useful!!
+# C’est littéralement un projet de débutant (enfin, plus ou moins, j’ai essayé de rendre ça clair).
 
-
-# if you ever need to check all the ASCII characters you can just do this function:
+# Astuce bonus : si tu veux voir tous les caractères ASCII :
 # for i in range(128):
-#     print(f"{i} -> {chr(i)}")
-
-# feel free to correct my code if needed, this is a public code and I aim to help beginner understands!
+#     print(f"{i} -> {chr(i)}")   
