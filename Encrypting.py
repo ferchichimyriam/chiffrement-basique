@@ -48,7 +48,3 @@ def caesar(text, shift, mode):
 print(caesar('Chat', 3, 'encrypt'))
 
 # C’est littéralement un projet de débutant (enfin, plus ou moins, j’ai essayé de rendre ça clair).
-
-# Astuce bonus : si tu veux voir tous les caractères ASCII :
-# for i in range(128):
-#     print(f"{i} -> {chr(i)}")   
